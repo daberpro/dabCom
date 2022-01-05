@@ -5,9 +5,9 @@ const a = <h1 id="hello world">
 			hello world
 		  </h1>;
 
-function Welcome({parentComponent,positionComponent}){
+function Welcome({$toBeChild}){
 
-	return  <div parent={parentComponent} componentId={positionComponent}>
+	return  <div $beChild>
 				welcome to seleku-kit
 			</div>
 

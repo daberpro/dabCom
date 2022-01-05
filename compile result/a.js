@@ -5,13 +5,13 @@ import {
 const a = [dabMain.createRawComponent(`h1`, {
   content: "` hello world  `",
   parentComponent: "",
-  positionComponent: "8spw6vlv",
+  positionComponent: "ki0h8yhl",
   state: {},
   event: {}
 }), dabMain.createRawComponent(`p`, {
   content: "`create by daberdev`",
-  parentComponent: "8spw6vlv",
-  positionComponent: "gogohgiu",
+  parentComponent: "ki0h8yhl",
+  positionComponent: "bo5mbg5a",
   state: {},
   event: {}
 })];
@@ -37,7 +37,7 @@ function isLogged({
     return [dabMain.createRawComponent(`h1`, {
       content: "`${this.state.username} logged`",
       parentComponent: "",
-      positionComponent: "i8znkoyf",
+      positionComponent: "kthg3069",
       state: {
         username
       },
@@ -54,7 +54,7 @@ function isLogged({
     return [dabMain.createRawComponent(`h1`, {
       content: "`${this.state.username} logout ${this.state.fullYear}`",
       parentComponent: "",
-      positionComponent: "8n9a6c22",
+      positionComponent: "1qz736p7",
       state: {
         username,
         fullYear: new Date().getFullYear()
@@ -62,18 +62,18 @@ function isLogged({
       event: {}
     }), dabMain.createRawComponent(`b`, {
       content: "`hehehe`",
-      parentComponent: "8n9a6c22",
-      positionComponent: "2ct92nbe",
+      parentComponent: "1qz736p7",
+      positionComponent: "4jw2vkv",
       state: {},
       event: {}
     }), ...Welcome({
       name: "ari susanto",
-      parentComponent: "8n9a6c22",
-      positionComponent: "4fwescdg"
+      parentComponent: "1qz736p7",
+      positionComponent: "awc6t4rk"
     }), dabMain.createRawComponent(`p`, {
       content: "`nice`",
-      parentComponent: "4fwescdg",
-      positionComponent: "4tgy5wfk",
+      parentComponent: "awc6t4rk",
+      positionComponent: "765plm7b",
       state: {},
       event: {}
     })]
