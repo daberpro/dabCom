@@ -1,0 +1,16 @@
+{
+  "name": "dabcom",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "jest": "^27.4.5",
+    "js-beautify": "^1.14.0",
+    "parse5": "^6.0.1"
+  }
+}
