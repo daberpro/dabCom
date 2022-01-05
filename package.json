@@ -1,16 +1,33 @@
 {
   "name": "dabcom",
   "version": "1.0.0",
-  "description": "",
+  "description": "dabCom or seleku-kit is a next generation of seleku",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "daber",
+  "license": "MIT",
   "dependencies": {
     "jest": "^27.4.5",
     "js-beautify": "^1.14.0",
     "parse5": "^6.0.1"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daberpro/dabCom.git"
+  },
+  "keywords": [
+    "dabCom",
+    "seleku",
+    "seleku-kit",
+    "daberdev",
+    "daber",
+    "frontend"
+  ],
+  "bugs": {
+    "url": "https://github.com/daberpro/dabCom/issues"
+  },
+  "homepage": "https://github.com/daberpro/dabCom#readme"
 }

@@ -235,8 +235,10 @@ function transformComponent(rawComponent,res,positionComponent,indexComponent){
 
 }
 
-const t = fs.readFileSync(__dirname+"/component test/card.js").toString();
-const g = transformComponent(t,[],[],0)
+module.exports.Compile = (fileSource)=>{
 
-// console.log(g)
-fs.writeFileSync(__dirname+"/compile result/a.js",beautify(g, { indent_size: 2, space_in_empty_paren: true }))
+    return {
+        JS: beautify(transformComponent(fileSource.toString(),[],[],0), { indent_size: 2, space_in_empty_paren: true })
+    }
+
+}
