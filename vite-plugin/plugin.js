@@ -1,19 +1,18 @@
-const { Compile } = require("./compiler")
-module.exports = function () {
+const { Compile } = require("./compiler.js");
+const fs = require("fs");
 
-    return {
-        name: "dabCom",
-        transform(src, id) {
-            if (/\.js/.test(id)) {
-                return {
-                    code: Compile(src).JS,
-                    map: null // provide source map if available
-                }
+module.exports.dabComPlugin = {
+    name: 'dabCom-esbuild-plugin',
+    setup(build) {
+
+        build.onLoad({ filter: /\.js$/}, async (args) =>{
+
+            let text = await fs.promises.readFile(args.path, 'utf8')
+
+            return {
+                contents: Compile(text).JS
             }
-        },
-        resolveId(id) {
-            return `${__dirname}/${id}`;
-        }
-    }
 
+        })
+    }
 }

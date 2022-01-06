@@ -6,3 +6,4 @@ component test
 App.js
 main.js
 vite-plugin/res
+vite.config.js

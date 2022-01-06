@@ -2,7 +2,7 @@
   "name": "dabcom",
   "version": "1.0.0",
   "description": "dabCom or seleku-kit is a next generation of seleku",
-  "main": "index.js",
+  "main": "res/dabMain.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
