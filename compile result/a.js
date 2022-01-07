@@ -5,15 +5,20 @@ import {
 const a = [dabMain.createRawComponent(`h1`, {
   content: "` hello world  `",
   parentComponent: "",
-  positionComponent: "ki0h8yhl",
+  positionComponent: "fn7m7o5q",
   state: {},
-  event: {}
+  event: {},
+  attribute: {
+    id: "hello world",
+    class: "box"
+  }
 }), dabMain.createRawComponent(`p`, {
   content: "`create by daberdev`",
-  parentComponent: "ki0h8yhl",
-  positionComponent: "bo5mbg5a",
+  parentComponent: "fn7m7o5q",
+  positionComponent: "iii29sq3",
   state: {},
-  event: {}
+  event: {},
+  attribute: {}
 })];
 
 function Welcome({
@@ -25,7 +30,8 @@ function Welcome({
     parentComponent: parentComponent,
     positionComponent: positionComponent,
     state: {},
-    event: {}
+    event: {},
+    attribute: {}
   })]
 }
 
@@ -37,7 +43,7 @@ function isLogged({
     return [dabMain.createRawComponent(`h1`, {
       content: "`${this.state.username} logged`",
       parentComponent: "",
-      positionComponent: "kthg3069",
+      positionComponent: "5zfa9hr7",
       state: {
         username
       },
@@ -48,37 +54,42 @@ function isLogged({
         onmousemove: () => {
           console.log('mouse move')
         }
-      }
+      },
+      attribute: {}
     })]
   } else {
     return [dabMain.createRawComponent(`h1`, {
       content: "`${this.state.username} logout ${this.state.fullYear}`",
       parentComponent: "",
-      positionComponent: "1qz736p7",
+      positionComponent: "c8i3a8pc",
       state: {
         username,
         fullYear: new Date().getFullYear()
       },
-      event: {}
+      event: {},
+      attribute: {}
     }), dabMain.createRawComponent(`b`, {
       content: "`hehehe`",
-      parentComponent: "1qz736p7",
-      positionComponent: "4jw2vkv",
+      parentComponent: "c8i3a8pc",
+      positionComponent: "21zp6vcl",
       state: {},
-      event: {}
+      event: {},
+      attribute: {}
     }), ...Welcome({
       name: "ari susanto",
-      parentComponent: "1qz736p7",
-      positionComponent: "awc6t4rk"
+      parentComponent: "c8i3a8pc",
+      positionComponent: "kau0ko36"
     }), dabMain.createRawComponent(`p`, {
       content: "`nice`",
-      parentComponent: "awc6t4rk",
-      positionComponent: "765plm7b",
+      parentComponent: "kau0ko36",
+      positionComponent: "f3v5meg7",
       state: {},
-      event: {}
+      event: {},
+      attribute: {}
     })]
   }
 }
+Render(a, document.body);
 const logged = Render(isLogged({
   username: "Ari susanto",
   check: false

@@ -117,6 +117,17 @@ function createNativeComponentFromHTML(Component,component,parent,rawText){
 	}
 
 	let template = ``;
+	const elementAttribute = {};
+
+	for(let x in attr){
+
+		if(!(/(state|on\:|parent|componentid)/igm.test(x))){
+
+			elementAttribute[x] = attr[x];
+
+		}
+
+	}
 	
 	if(!(Component.tagName in HTMLElementTag)){
 		Component.functionName = Component.tagName;
@@ -138,7 +149,8 @@ function createNativeComponentFromHTML(Component,component,parent,rawText){
 				parentComponent: ${attr?.parent?.replace(/\"/igm,"") || '\"'+parent+'"' || ""},
 				positionComponent: ${attr?.componentid?.replace(/\"/igm,"") || '\"'+position+'"'},
 				state: ${attr["state"] || "{}"},
-				event: ${toString(createEventProperty(attr)).replace(/\"/igm,"")}
+				event: ${toString(createEventProperty(attr)).replace(/\"/igm,"")},
+				attribute: ${toString(elementAttribute)}
 			}
 		)`.replace(/(\r|\t|\n)/igm,"");
 	}
@@ -234,6 +246,8 @@ function transformComponent(rawComponent,res,positionComponent,indexComponent){
 	return rawComponent;
 
 }
+
+fs.writeFileSync(__dirname+"/compile result/a.js",beautify(transformComponent(fs.readFileSync(__dirname+"/component test/card.js").toString(),[],[],0), { indent_size: 2, space_in_empty_paren: true }))
 
 module.exports.Compile = (fileSource)=>{
 

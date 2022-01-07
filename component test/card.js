@@ -1,6 +1,6 @@
 import { Render, dabMain } from "../res/dabMain.js";
 
-const a = <h1 id="hello world">
+const a = <h1 id="hello world" class="box">
  			<p>create by daberdev</p>
 			hello world
 		  </h1>;
@@ -53,7 +53,7 @@ function isLogged({check,username}){
 	
 }
 
-
+Render(a,document.body);
 const logged = Render(<isLogged username="Ari susanto" check={false} ></isLogged>,document.body);
 logged.state.username = "Daberdev";
 
