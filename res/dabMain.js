@@ -2,6 +2,12 @@ import { Main } from "./dabMainClass.js";
 
 export const dabMain = new Main();
 
+export function findById(id){
+
+	return dabMain.findById(id);
+
+}
+
 export function Render(Component,target){
 
 	return {

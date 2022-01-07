@@ -3,6 +3,8 @@ import { Reactivity } from "./Reactivity.js";
 
 export class Main{
 
+	#allComponentId = {};
+
 	/**
 	 * 
 	 * @param {String} name 
@@ -18,7 +20,8 @@ export class Main{
 			parentComponent: attribute?.parentComponent,
 			positionComponent: attribute?.positionComponent,
 			state: attribute?.state || {},
-			event: attribute?.event || {}
+			event: attribute?.event || {},
+			id: attribute?.id
 		}
 
 	}
@@ -45,16 +48,6 @@ export class Main{
 		const textNode = document.createTextNode(rawComponent?.content);
 		element.appendChild(textNode);
 
-		if(rawComponent?.event instanceof Object){
-
-			for(let x in rawComponent?.event){
-
-				element[x] = rawComponent?.event[x];
-
-			}
-
-		}
-
 		return {
 			element,
 			content: textNode,
@@ -62,6 +55,7 @@ export class Main{
 			parent: rawComponent.parentComponent,
 			position: rawComponent.positionComponent,
 			state: rawComponent?.state,
+			event: rawComponent?.event,
 			destroy(onDestroy = ()=>{}){
 
 				onDestroy();
@@ -100,6 +94,36 @@ export class Main{
 
 			const componentCreated = this.createComponent(x);
 			State = {...State,...componentCreated.state};
+			if(x?.id){
+				this.#allComponentId[x?.id] = componentCreated;
+			}
+			if(x?.event instanceof Object){
+
+				for(let y in x?.event){
+	
+					componentCreated.element[y] = ()=> x?.event[y]({
+						state: new Reactivity({
+							Getter(object,propertyName){
+			
+								return object[propertyName];
+			
+							},
+							Setter(object,propertyName,valueSet){
+			
+								for(let x of kindOfComponentBindingData[propertyName]){
+			
+									x.state[propertyName] = valueSet;
+									x.updateTextNode();
+			
+								}
+			
+							}
+						}).setReactive(State)
+					});
+	
+				}
+	
+			}
 
 			for(let y of Object.keys(componentCreated.state)){
 
@@ -187,6 +211,12 @@ export class Main{
 	replaceChild(newComponent,oldComponent){
 		
 		oldComponent.parentElement.replaceChild(newComponent.element,oldComponent);
+
+	}
+
+	findById(id){
+
+		return this.#allComponentId[id];
 
 	}
 

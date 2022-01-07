@@ -81,7 +81,7 @@ function createNativeComponentFromHTML(Component,component,parent,rawText){
 
 			if(x.value[0] === "{" && x.value[x.value.length-1] === "}"){
 
-				attr[x.name] = x.value.replace(/\{/,"").replace(/\}/,"");
+				attr[x.name] = x.value.replace(/\{/,"").replace(/\}$/,"");
 
 			}else{
 
@@ -121,7 +121,7 @@ function createNativeComponentFromHTML(Component,component,parent,rawText){
 
 	for(let x in attr){
 
-		if(!(/(state|on\:|parent|componentid)/igm.test(x))){
+		if(!(/(state|on\:|parent|componentid|component\:)/igm.test(x))){
 
 			elementAttribute[x] = attr[x];
 
@@ -150,7 +150,8 @@ function createNativeComponentFromHTML(Component,component,parent,rawText){
 				positionComponent: ${attr?.componentid?.replace(/\"/igm,"") || '\"'+position+'"'},
 				state: ${attr["state"] || "{}"},
 				event: ${toString(createEventProperty(attr)).replace(/\"/igm,"")},
-				attribute: ${toString(elementAttribute)}
+				attribute: ${toString(elementAttribute)},
+				id: "${attr["component:id"] || ''}"
 			}
 		)`.replace(/(\r|\t|\n)/igm,"");
 	}
@@ -247,7 +248,7 @@ function transformComponent(rawComponent,res,positionComponent,indexComponent){
 
 }
 
-fs.writeFileSync(__dirname+"/compile result/a.js",beautify(transformComponent(fs.readFileSync(__dirname+"/component test/card.js").toString(),[],[],0), { indent_size: 2, space_in_empty_paren: true }))
+// fs.writeFileSync(__dirname+"/compile result/a.js",beautify(transformComponent(fs.readFileSync(__dirname+"/component test/card.js").toString(),[],[],0), { indent_size: 2, space_in_empty_paren: true }))
 
 module.exports.Compile = (fileSource)=>{
 

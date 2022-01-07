@@ -1,4 +1,4 @@
-const { Compile } = require("./compiler.js");
+const { Compile } = require("../compiler.js");
 const fs = require("fs");
 
 module.exports.dabComPlugin = {

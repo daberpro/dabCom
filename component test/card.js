@@ -1,6 +1,6 @@
-import { Render, dabMain } from "../res/dabMain.js";
+import { Render, dabMain, findById } from "../res/dabMain.js";
 
-const a = <h1 id="hello world" class="box">
+const a = <h1 component:id="b" id="hello world" class="box">
  			<p>create by daberdev</p>
 			hello world
 		  </h1>;
@@ -18,9 +18,10 @@ function isLogged({check,username}){
 	if(check){
 
 		return <h1 
-		on:click="{function(){
+		on:click="{function({state}){
 
-			console.log('hello world');
+			state.username = new Date().getTime();
+			console.log(findById('b'));
 
 		}}"
 
@@ -32,28 +33,38 @@ function isLogged({check,username}){
 			username
 		}}"
 
+		component:id="a"
+
 		>${this.state.username} logged</h1>
 
 	}else{
 
-		return <h1 state="{{
-			username,
-			fullYear: new Date().getFullYear()
-		}}">
-			${this.state.username} logout ${this.state.fullYear}
-			<b>hehehe</b>
-			<Welcome name="ari susanto">
+		return  <h1 state="{{
+				 	 username,
+					 fullYear: new Date().getFullYear()
+				 }}">
+					${this.state.username} logout ${this.state.fullYear}
+					<b>hehehe</b>
+					<Welcome name="ari susanto">
 
-				<p>nice</p>
+						<p>nice</p>
 
-			</Welcome>
-		</h1>
+					</Welcome>
+				</h1>
 
 	}
 	
 }
 
 Render(a,document.body);
-const logged = Render(<isLogged username="Ari susanto" check={false} ></isLogged>,document.body);
-logged.state.username = "Daberdev";
+const logged = Render(<isLogged username="Ari susanto" check={true} ></isLogged>,document.body);
+
+Render(<button on:click="{function(){
+
+	logged.updateComponentProperty(isLogged,{
+		username: 'Ari Susanto',
+		check: false
+	})
+
+}}">update islogged</button>,findById("a").element)
 

@@ -1,24 +1,27 @@
 import {
   Render,
-  dabMain
+  dabMain,
+  findById
 } from "../res/dabMain.js";
 const a = [dabMain.createRawComponent(`h1`, {
   content: "` hello world  `",
   parentComponent: "",
-  positionComponent: "fn7m7o5q",
+  positionComponent: "9yaew9aq",
   state: {},
   event: {},
   attribute: {
     id: "hello world",
     class: "box"
-  }
+  },
+  id: "b"
 }), dabMain.createRawComponent(`p`, {
   content: "`create by daberdev`",
-  parentComponent: "fn7m7o5q",
-  positionComponent: "iii29sq3",
+  parentComponent: "9yaew9aq",
+  positionComponent: "8rldqo4q",
   state: {},
   event: {},
-  attribute: {}
+  attribute: {},
+  id: ""
 })];
 
 function Welcome({
@@ -31,7 +34,8 @@ function Welcome({
     positionComponent: positionComponent,
     state: {},
     event: {},
-    attribute: {}
+    attribute: {},
+    id: ""
   })]
 }
 
@@ -43,55 +47,77 @@ function isLogged({
     return [dabMain.createRawComponent(`h1`, {
       content: "`${this.state.username} logged`",
       parentComponent: "",
-      positionComponent: "5zfa9hr7",
+      positionComponent: "1igblp59",
       state: {
         username
       },
       event: {
-        onclick: function() {
-          console.log('hello world');
+        onclick: function({
+          state
+        }) {
+          state.username = new Date().getTime();
+          console.log(findById('b'));
         },
         onmousemove: () => {
           console.log('mouse move')
         }
       },
-      attribute: {}
+      attribute: {},
+      id: "a"
     })]
   } else {
     return [dabMain.createRawComponent(`h1`, {
       content: "`${this.state.username} logout ${this.state.fullYear}`",
       parentComponent: "",
-      positionComponent: "c8i3a8pc",
+      positionComponent: "a8fy6nw7",
       state: {
         username,
         fullYear: new Date().getFullYear()
       },
       event: {},
-      attribute: {}
+      attribute: {},
+      id: ""
     }), dabMain.createRawComponent(`b`, {
       content: "`hehehe`",
-      parentComponent: "c8i3a8pc",
-      positionComponent: "21zp6vcl",
+      parentComponent: "a8fy6nw7",
+      positionComponent: "e8h8687p",
       state: {},
       event: {},
-      attribute: {}
+      attribute: {},
+      id: ""
     }), ...Welcome({
       name: "ari susanto",
-      parentComponent: "c8i3a8pc",
-      positionComponent: "kau0ko36"
+      parentComponent: "a8fy6nw7",
+      positionComponent: "3fuj1cyd"
     }), dabMain.createRawComponent(`p`, {
       content: "`nice`",
-      parentComponent: "kau0ko36",
-      positionComponent: "f3v5meg7",
+      parentComponent: "3fuj1cyd",
+      positionComponent: "jsrqtdod",
       state: {},
       event: {},
-      attribute: {}
+      attribute: {},
+      id: ""
     })]
   }
 }
 Render(a, document.body);
 const logged = Render(isLogged({
   username: "Ari susanto",
-  check: false
+  check: true
 }), document.body);
-logged.state.username = "Daberdev";
+Render([dabMain.createRawComponent(`button`, {
+  content: "`update islogged`",
+  parentComponent: "",
+  positionComponent: "ksoc7yn7",
+  state: {},
+  event: {
+    onclick: function() {
+      logged.updateComponentProperty(isLogged, {
+        username: 'Ari Susanto',
+        check: false
+      })
+    }
+  },
+  attribute: {},
+  id: ""
+})], findById("a").element)
