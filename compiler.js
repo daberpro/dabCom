@@ -8,6 +8,12 @@ function toString(b){
 
 	let c = Object.keys(b).map(e =>{
 
+		if(/\<.*?>.*?<\/.*?>/igm.test(b[e])){
+
+			return `${e}: ${b[e]}`
+
+		}
+
 		if(b[e] instanceof Array){
 			return `${e}:[${b[e]}]` 
 		}
@@ -18,7 +24,7 @@ function toString(b){
 
 		}
 
-		if(typeof b[e] === "string") return `${e}:"${b[e]}"`;
+		if(typeof b[e] === "string") return `"${e}":"${b[e]}"`;
 
 		return `${e}:${b[e]}`
 
@@ -145,7 +151,7 @@ function createNativeComponentFromHTML(Component,component,parent,rawText){
 		template = `dabMain.createRawComponent(
 			\`${Component.tagName}\`,
 			{
-				content: "\`${text.replace(/\$\{/igm,"\${")}\`",
+				content: '\`${text.replace(/\$\{/igm,"\${")}\`',
 				parentComponent: ${attr?.parent?.replace(/\"/igm,"") || '\"'+parent+'"' || ""},
 				positionComponent: ${attr?.componentid?.replace(/\"/igm,"") || '\"'+position+'"'},
 				state: ${attr["state"] || "{}"},
@@ -153,7 +159,7 @@ function createNativeComponentFromHTML(Component,component,parent,rawText){
 				attribute: ${toString(elementAttribute)},
 				id: "${attr["component:id"] || ''}"
 			}
-		)`.replace(/(\r|\t|\n)/igm,"");
+		)`.replace(/(\r|\t|\n)/igm,"").replace(/\"/igm,"'");
 	}
 
 	component.push(template);
@@ -184,17 +190,26 @@ function createCustomComponent(Component,rawText){
 
 		for(let x of Component.attrs){
 
-			if(x.value[0] === "{" && x.value[x.value.length - 1] === "}"){
-
+			if(x.value[0] === "{" && x.value[x.value.length - 1] === "}" && !/\<.*?>/.test(x.value) && !/^\{\{/igm.test(x.value) && !/\}\}$/igm.test(x.value)){
+				
 				attr[x.name] = eval(x.value.replace(/\{/,"").replace(/\}/,""));
+
+			}else if(x.value[0] === "{" && x.value[x.value.length - 1] === "}" && /\<.*?>/.test(x.value)){
+
+				attr[x.name] = x.value.replace(/\{/,"").replace(/\}/,"");
+
+			}else if(x.value[0] === "{" && x.value[x.value.length - 1] === "}" && !/\<.*?>/.test(x.value) && /^\{\{/igm.test(x.value) && /\}\}$/igm.test(x.value)){
+
+				attr[x.name] = eval(`Object.assign({},${x.value.replace(/\{/,"").replace(/\}/,"")})`);
 
 			}else{
 
-				attr[x.name] = x.value;
+				attr[x.name] = x.value.replace(/\{/,"").replace(/\}/,"");
 
 			}
 
 		}
+		
 
 	}
 

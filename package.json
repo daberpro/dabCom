@@ -1,6 +1,6 @@
 {
   "name": "dabcom",
-  "version": "1.0.4",
+  "version": "1.0.6",
   "description": "dabCom or seleku-kit is a next generation of seleku",
   "main": "res/dabMain.js",
   "scripts": {
@@ -9,6 +9,7 @@
   "author": "daber",
   "license": "MIT",
   "dependencies": {
+    "express": "^4.17.2",
     "jest": "^27.4.5",
     "js-beautify": "^1.14.0",
     "parse5": "^6.0.1"
@@ -16,7 +17,6 @@
   "engines": {
     "node": ">=17.3.0"
   },
-  "devDependencies": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daberpro/dabCom.git"

@@ -2,26 +2,31 @@ import {
   Render,
   dabMain,
   findById
-} from "../res/dabMain.js";
+} from "./res/dabMain.js";
+import {
+  Router
+} from "/route.js";
 const a = [dabMain.createRawComponent(`h1`, {
-  content: "` hello world  `",
-  parentComponent: "",
-  positionComponent: "9yaew9aq",
-  state: {},
+  content: '` hello world ${this.state.count}  `',
+  parentComponent: '',
+  positionComponent: '3oaxlfzg',
+  state: {
+    count: 0
+  },
   event: {},
   attribute: {
-    id: "hello world",
-    class: "box"
+    'id': 'hello world',
+    'class': 'box'
   },
-  id: "b"
+  id: 'b'
 }), dabMain.createRawComponent(`p`, {
-  content: "`create by daberdev`",
-  parentComponent: "9yaew9aq",
-  positionComponent: "8rldqo4q",
+  content: '`create by daberdev`',
+  parentComponent: '3oaxlfzg',
+  positionComponent: 'bicliekr',
   state: {},
   event: {},
   attribute: {},
-  id: ""
+  id: ''
 })];
 
 function Welcome({
@@ -29,13 +34,13 @@ function Welcome({
   positionComponent
 }) {
   return [dabMain.createRawComponent(`div`, {
-    content: "`welcome to seleku-kit`",
+    content: '`welcome to seleku-kit`',
     parentComponent: parentComponent,
     positionComponent: positionComponent,
     state: {},
     event: {},
     attribute: {},
-    id: ""
+    id: ''
   })]
 }
 
@@ -45,9 +50,9 @@ function isLogged({
 }) {
   if (check) {
     return [dabMain.createRawComponent(`h1`, {
-      content: "`${this.state.username} logged`",
-      parentComponent: "",
-      positionComponent: "1igblp59",
+      content: '`${this.state.username} logged`',
+      parentComponent: '',
+      positionComponent: '46grr32b',
       state: {
         username
       },
@@ -57,67 +62,88 @@ function isLogged({
         }) {
           state.username = new Date().getTime();
           console.log(findById('b'));
-        },
-        onmousemove: () => {
-          console.log('mouse move')
         }
       },
       attribute: {},
-      id: "a"
+      id: 'a'
     })]
   } else {
     return [dabMain.createRawComponent(`h1`, {
-      content: "`${this.state.username} logout ${this.state.fullYear}`",
-      parentComponent: "",
-      positionComponent: "a8fy6nw7",
+      content: '`${this.state.username} logout ${this.state.fullYear}`',
+      parentComponent: '',
+      positionComponent: '3x5zb9b6',
       state: {
         username,
         fullYear: new Date().getFullYear()
       },
       event: {},
       attribute: {},
-      id: ""
+      id: ''
     }), dabMain.createRawComponent(`b`, {
-      content: "`hehehe`",
-      parentComponent: "a8fy6nw7",
-      positionComponent: "e8h8687p",
+      content: '`hehehe`',
+      parentComponent: '3x5zb9b6',
+      positionComponent: 'hluxgf6k',
       state: {},
       event: {},
       attribute: {},
-      id: ""
+      id: ''
     }), ...Welcome({
-      name: "ari susanto",
-      parentComponent: "a8fy6nw7",
-      positionComponent: "3fuj1cyd"
+      "name": "ari susanto",
+      "parentComponent": "3x5zb9b6",
+      "positionComponent": "cnvg2ua1"
     }), dabMain.createRawComponent(`p`, {
-      content: "`nice`",
-      parentComponent: "3fuj1cyd",
-      positionComponent: "jsrqtdod",
+      content: '`nice`',
+      parentComponent: 'cnvg2ua1',
+      positionComponent: '20h97lsy',
       state: {},
       event: {},
       attribute: {},
-      id: ""
+      id: ''
     })]
   }
 }
+
+function Home() {
+  return [dabMain.createRawComponent(`h1`, {
+    content: '`Home ${this.nama}`',
+    parentComponent: '',
+    positionComponent: 'gs1c665u',
+    state: {},
+    event: {},
+    attribute: {},
+    id: ''
+  })];
+}
+Router.route({
+  "path": "/home",
+  component: Home({}),
+  data: {
+    "nama": "home"
+  }
+});
 Render(a, document.body);
-const logged = Render(isLogged({
-  username: "Ari susanto",
-  check: true
-}), document.body);
+Render([dabMain.createRawComponent(`a`, {
+  content: '`go home`',
+  parentComponent: '',
+  positionComponent: 'hnrk323p',
+  state: {},
+  event: {},
+  attribute: {
+    'href': '/home',
+    'data-link': ''
+  },
+  id: ''
+})], document.body);
 Render([dabMain.createRawComponent(`button`, {
-  content: "`update islogged`",
-  parentComponent: "",
-  positionComponent: "ksoc7yn7",
+  content: '`update islogged`',
+  parentComponent: '',
+  positionComponent: '222t1igb',
   state: {},
   event: {
     onclick: function() {
-      logged.updateComponentProperty(isLogged, {
-        username: 'Ari Susanto',
-        check: false
-      })
+      findById('b').state.count = 1;
     }
   },
   attribute: {},
-  id: ""
-})], findById("a").element)
+  id: ''
+})], document.body)

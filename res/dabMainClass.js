@@ -1,17 +1,12 @@
 import { Reactivity } from "./Reactivity.js";
 
 
-export class Main{
+export class Main {
 
 	#allComponentId = {};
+	#kindOfComponentBindingData = {};
 
-	/**
-	 * 
-	 * @param {String} name 
-	 * @param {{content: String,attribute: Object,parentComponent: String,positionComponent: String, state: Object}} attribute 
-	 * @returns 
-	 */
-	createRawComponent(name,attribute){
+	createRawComponent(name, attribute) {
 
 		return {
 			name,
@@ -26,20 +21,16 @@ export class Main{
 
 	}
 
-	/**
-	 * 
-	 * @param {Object} rawComponent 
-	 * @returns element,content,parent,position,destroy
-	 */
-	createComponent(rawComponent){
+
+	createComponent(rawComponent,embedData = {}) {
 
 		const element = document.createElement(rawComponent.name);
-		
-		if(rawComponent?.attribute instanceof Object){
 
-			for(let x in rawComponent?.attribute){
+		if (rawComponent?.attribute instanceof Object) {
 
-				element.setAttribute(x,rawComponent?.attribute[x]);
+			for (let x in rawComponent?.attribute) {
+
+				element.setAttribute(x, rawComponent?.attribute[x]);
 
 			}
 
@@ -56,20 +47,21 @@ export class Main{
 			position: rawComponent.positionComponent,
 			state: rawComponent?.state,
 			event: rawComponent?.event,
-			destroy(onDestroy = ()=>{}){
+			...embedData,
+			destroy(onDestroy = () => { }) {
 
 				onDestroy();
 				element.remove();
 
 			},
-			updateTextNode(){
+			updateTextNode() {
 
 				const text = this.rawContent;
 				const resultText = eval(text);
-				this.content.replaceData(0,text.length,resultText);
+				this.content.replaceData(0, text.length, resultText);
 
 			},
-			updateAttribute(){
+			updateAttribute() {
 
 
 
@@ -78,60 +70,76 @@ export class Main{
 
 	}
 
-	/**
-	 * 
-	 * @param {Array<rawComponentCreate} StackRawComponent 
-	 * @param {HTMLElement} target 
-	 * @returns target
-	 */
-	renderComponent(StackRawComponent,target){
+	
+	renderComponent(StackRawComponent, target, embedData = {}) {
 
 		const StackComponent = [];
 		let State = {};
-		let kindOfComponentBindingData = {};
 
-		for(let x of StackRawComponent){
+		const kindOfComponentBindingData = this.#kindOfComponentBindingData;
 
-			const componentCreated = this.createComponent(x);
-			State = {...State,...componentCreated.state};
-			if(x?.id){
-				this.#allComponentId[x?.id] = componentCreated;
+		for (let x of StackRawComponent) {
+
+			const componentCreated = this.createComponent(x, embedData);
+			State = { ...State, ...componentCreated.state };
+
+			if (x?.id) {
+				this.#allComponentId[x?.id] = {
+					...componentCreated,
+					state: new Reactivity({
+						Getter(object, propertyName) {
+
+							return object[propertyName];
+
+						},
+						Setter(object, propertyName, valueSet) {
+							
+							for (let x of kindOfComponentBindingData[propertyName]) {
+
+								x.state[propertyName] = valueSet;
+								x.updateTextNode();
+
+							}
+
+						}
+					}).setReactive(State)
+				};
 			}
-			if(x?.event instanceof Object){
+			if (x?.event instanceof Object) {
 
-				for(let y in x?.event){
-	
-					componentCreated.element[y] = ()=> x?.event[y]({
+				for (let y in x?.event) {
+
+					componentCreated.element[y] = () => x?.event[y]({
 						state: new Reactivity({
-							Getter(object,propertyName){
-			
+							Getter(object, propertyName) {
+
 								return object[propertyName];
-			
+
 							},
-							Setter(object,propertyName,valueSet){
-			
-								for(let x of kindOfComponentBindingData[propertyName]){
-			
+							Setter(object, propertyName, valueSet) {
+
+								for (let x of kindOfComponentBindingData[propertyName]) {
+
 									x.state[propertyName] = valueSet;
 									x.updateTextNode();
-			
+
 								}
-			
+
 							}
 						}).setReactive(State)
 					});
-	
+
 				}
-	
+
 			}
 
-			for(let y of Object.keys(componentCreated.state)){
+			for (let y of Object.keys(componentCreated.state)) {
 
-				if(kindOfComponentBindingData[y] instanceof Array){
+				if (kindOfComponentBindingData[y] instanceof Array) {
 
 					kindOfComponentBindingData[y].push(componentCreated);
 
-				}else{
+				} else {
 
 					kindOfComponentBindingData[y] = [];
 					kindOfComponentBindingData[y].push(componentCreated);
@@ -146,22 +154,22 @@ export class Main{
 
 		const element = {};
 
-		for(let x of StackComponent){
+		for (let x of StackComponent) {
 
 			x.updateTextNode();
 
-			if(!(element[x.position])){
+			if (!(element[x.position])) {
 
 				element[x.position] = x.element;
 
-				if(element[x.parent]){
+				if (element[x.parent]) {
 
 					element[x.parent].appendChild(x.element);
 
 				}
 
 			}
-			else{
+			else {
 
 				element[x.position].appendChild(x.element);
 
@@ -169,19 +177,20 @@ export class Main{
 
 		}
 
-		if(target instanceof HTMLElement) target.appendChild(element[Object.keys(element)[0]]);
+		if (target instanceof HTMLElement) target.appendChild(element[Object.keys(element)[0]]);
 
 		return {
+			destroy: StackComponent[0].destroy,
 			component: StackComponent[0],
 			state: new Reactivity({
-				Getter(object,propertyName){
+				Getter(object, propertyName) {
 
 					return object[propertyName];
 
 				},
-				Setter(object,propertyName,valueSet){
+				Setter(object, propertyName, valueSet) {
 
-					for(let x of kindOfComponentBindingData[propertyName]){
+					for (let x of kindOfComponentBindingData[propertyName]) {
 
 						x.state[propertyName] = valueSet;
 						x.updateTextNode();
@@ -190,9 +199,9 @@ export class Main{
 
 				}
 			}).setReactive(State),
-			updateComponentRendered(){
+			updateComponentRendered() {
 
-				for(let x of StackComponent){
+				for (let x of StackComponent) {
 
 					x.updateTextNode();
 
@@ -203,18 +212,14 @@ export class Main{
 
 	}
 
-	/**
-	 * 
-	 * @param {HTMLElement} newComponent 
-	 * @param {HTMLElement} oldComponent 
-	 */
-	replaceChild(newComponent,oldComponent){
-		
-		oldComponent.parentElement.replaceChild(newComponent.element,oldComponent);
+
+	replaceChild(newComponent, oldComponent) {
+
+		oldComponent.parentElement.replaceChild(newComponent.element, oldComponent);
 
 	}
 
-	findById(id){
+	findById(id) {
 
 		return this.#allComponentId[id];
 

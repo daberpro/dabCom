@@ -1,8 +1,9 @@
-import { Render, dabMain, findById } from "../res/dabMain.js";
+import { Render, dabMain, findById } from "./res/dabMain.js";
+import { Router } from "/route.js";
 
-const a = <h1 component:id="b" id="hello world" class="box">
+const a = <h1 component:id="b" id="hello world" class="box" state="{{count: 0}}">
  			<p>create by daberdev</p>
-			hello world
+			hello world ${this.state.count}
 		  </h1>;
 
 function Welcome({$toBeChild}){
@@ -24,11 +25,6 @@ function isLogged({check,username}){
 			console.log(findById('b'));
 
 		}}"
-
-		on:mousemove="{()=>{
-			console.log('mouse move')
-		}}"
-
 		state="{{
 			username
 		}}"
@@ -56,15 +52,23 @@ function isLogged({check,username}){
 	
 }
 
+function Home(){
+
+	
+	return <h1>Home ${this.nama}</h1>;
+
+}
+
+<Router.route path="/home" component="<Home></Home>" data="{{nama: 'home'}}">
+</Router.route>;
+
 Render(a,document.body);
-const logged = Render(<isLogged username="Ari susanto" check={true} ></isLogged>,document.body);
+Render(<a href="/home" data-link>go home</a>,document.body);
 
 Render(<button on:click="{function(){
 
-	logged.updateComponentProperty(isLogged,{
-		username: 'Ari Susanto',
-		check: false
-	})
+	findById('b').state.count = 1;
 
-}}">update islogged</button>,findById("a").element)
+}}">update islogged</button>,document.body)
+
 
