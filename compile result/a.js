@@ -9,7 +9,7 @@ import {
 const a = [dabMain.createRawComponent(`h1`, {
   content: '` hello world ${this.state.count}  `',
   parentComponent: '',
-  positionComponent: 'kyzzixmb',
+  positionComponent: 'kz03vr7r',
   state: {
     count: 0
   },
@@ -21,8 +21,8 @@ const a = [dabMain.createRawComponent(`h1`, {
   id: 'b'
 }), dabMain.createRawComponent(`p`, {
   content: '`create by daberdev`',
-  parentComponent: 'kyzzixmb',
-  positionComponent: 'kyzzixme',
+  parentComponent: 'kz03vr7r',
+  positionComponent: 'kz03vr7t',
   state: {},
   event: {},
   attribute: {},
@@ -36,7 +36,7 @@ function Welcome({
   return [dabMain.createRawComponent(`div`, {
     content: '`welcome to seleku-kit`',
     parentComponent: parentComponent,
-    positionComponent: positionComponent,
+    positionComponent: '9v544pbz.7e4' + undefined,
     state: {},
     event: {},
     attribute: {},
@@ -52,7 +52,7 @@ function isLogged({
     return [dabMain.createRawComponent(`h1`, {
       content: '`${this.state.username} logged`',
       parentComponent: '',
-      positionComponent: 'kyzzixno',
+      positionComponent: 'kz03vr92',
       state: {
         username
       },
@@ -71,7 +71,7 @@ function isLogged({
     return [dabMain.createRawComponent(`h1`, {
       content: '`${this.state.username} logout ${this.state.fullYear}`',
       parentComponent: '',
-      positionComponent: 'kyzzixnx',
+      positionComponent: 'kz03vr9a',
       state: {
         username,
         fullYear: new Date().getFullYear()
@@ -81,20 +81,20 @@ function isLogged({
       id: ''
     }), dabMain.createRawComponent(`b`, {
       content: '`hehehe`',
-      parentComponent: 'kyzzixnx',
-      positionComponent: 'kyzzixnx',
+      parentComponent: 'kz03vr9a',
+      positionComponent: 'kz03vr9a',
       state: {},
       event: {},
       attribute: {},
       id: ''
     }), ...Welcome({
       "name": 'ari susanto',
-      "parentComponent": "kyzzixnx",
-      "positionComponent": "kyzzixnx"
+      "parentComponent": "kz03vr9a",
+      "positionComponent": "kz03vr9a"
     }), dabMain.createRawComponent(`p`, {
       content: '`nice`',
-      parentComponent: 'kyzzixnx',
-      positionComponent: 'kyzzixny',
+      parentComponent: 'kz03vr9a',
+      positionComponent: 'kz03vr9b',
       state: {},
       event: {},
       attribute: {},
@@ -112,7 +112,7 @@ function myp({
     component = [...component, ...[dabMain.createRawComponent(`h1`, {
       content: '`hello ${this.state.x}`',
       parentComponent: parentComponent,
-      positionComponent: new Date().getTime().toString('36') + x,
+      positionComponent: 'kz03vr9p' + x,
       state: {
         x: x
       },
@@ -134,7 +134,7 @@ async function getUser({
     object = [...object, ...[dabMain.createRawComponent(`h1`, {
       content: '`${this.state.nama}`',
       parentComponent: parentComponent,
-      positionComponent: new Date().getTime().toString('36') + x.node_id,
+      positionComponent: 'kz03vra2' + x.node_id,
       state: {
         nama: x.login
       },
@@ -143,8 +143,8 @@ async function getUser({
       id: ''
     }), dabMain.createRawComponent(`img`, {
       content: '``',
-      parentComponent: new Date().getTime().toString('36') + x.node_id,
-      positionComponent: x.node_id + x.login,
+      parentComponent: 'kz03vra2' + x.node_id,
+      positionComponent: 'j7gxophy.3sd' + x.node_id,
       state: {},
       event: {},
       attribute: {
@@ -155,6 +155,7 @@ async function getUser({
       id: ''
     })]];
   }
+  console.log(object);
   return object;
 }
 
@@ -162,14 +163,14 @@ function Home() {
   return [dabMain.createRawComponent(`h1`, {
     content: '`Home ${this.nama}`',
     parentComponent: '',
-    positionComponent: 'kyzzixou',
+    positionComponent: 'kz03vraa',
     state: {},
     event: {},
     attribute: {},
     id: ''
   }), ...myp({
-    "parentComponent": "kyzzixou",
-    "positionComponent": "kyzzixov"
+    "parentComponent": "kz03vraa",
+    "positionComponent": "kz03vraa"
   })];
 }
 Router.route({
@@ -186,14 +187,14 @@ async function main() {
   Render([dabMain.createRawComponent(`div`, {
     content: '``',
     parentComponent: '',
-    positionComponent: 'kyzzixqc',
+    positionComponent: 'kz03vrb5',
     state: {},
     event: {},
     attribute: {},
     id: ''
   }), ...(await getUser({
-    "parentComponent": "kyzzixqc",
-    "positionComponent": "kyzzixqc"
+    "parentComponent": "kz03vrb5",
+    "positionComponent": "kz03vrb6"
   }))], document.body);
 }
 main();
@@ -201,7 +202,7 @@ Render(a, document.body);
 Render([dabMain.createRawComponent(`a`, {
   content: '`go home`',
   parentComponent: '',
-  positionComponent: 'kyzzixqh',
+  positionComponent: 'kz03vrbc',
   state: {},
   event: {},
   attribute: {
@@ -213,7 +214,7 @@ Render([dabMain.createRawComponent(`a`, {
 Render([dabMain.createRawComponent(`button`, {
   content: '`update islogged`',
   parentComponent: '',
-  positionComponent: 'kyzzixqu',
+  positionComponent: 'kz03vrbm',
   state: {},
   event: {
     onclick: function() {

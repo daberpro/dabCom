@@ -84,11 +84,13 @@ async function getUser({$toBeChild}){
 				state="{{nama: x.login}}"
 			>
 				${this.state.nama}
-				<img parent="new Date().getTime().toString('36')+x.node_id" componentid="x.node_id + x.login" src="x.avatar_url" width="100" height="100"></img>
+				<img src="x.avatar_url" width="100" height="100"></img>
 
 			</h1>];
 
 	}
+
+	console.log(object);
 
 	return object;
 

@@ -61,11 +61,12 @@ String.prototype.replaceBetween = function (start, end, what) {
 	return this.substring(0, start - 1) + what + this.substring(end - 1);
 };
 
-function createNativeComponentFromHTML(Component, component, parent, rawText, autoParent) {
+function createNativeComponentFromHTML(Component, component, parent, rawText, autoParent, parentIsLoopComponent = false, parentUniqIndex) {
 
 	let text = ``;
 	let attr = {};
-	const position = new Date().getTime().toString("36");
+	let position = new Date().getTime().toString("36");
+	let pos2 = (new Date().getTime() * Math.random()).toString("36");
 
 	if (Component.childNodes instanceof Array && Component.childNodes.length > 0) {
 
@@ -127,7 +128,7 @@ function createNativeComponentFromHTML(Component, component, parent, rawText, au
 	
 	let loopComponent = (attr.hasOwnProperty("$loopcomponent"))? {
 		parent: 'parentComponent',
-		componentId: `new Date().getTime().toString('36') + ${attr["$loopcomponent"] || 0}`
+		componentId: `"${new Date().getTime().toString('36')}" + ${attr["$loopcomponent"] || 0}`
 	} : {};
 
 	for (let x in attr) {
@@ -167,8 +168,8 @@ function createNativeComponentFromHTML(Component, component, parent, rawText, au
 			\`${Component.tagName}\`,
 			{
 				content: '\`${text.replace(/\$\{/igm, "\${")}\`',
-				parentComponent: ${autoParent || loopComponent?.parent?.replace(/\"/igm, "") || attr?.parent?.replace(/\"/igm, "") || '\"' + parent + '"' || ""},
-				positionComponent: ${loopComponent?.componentId?.replace(/\"/igm, "") || attr?.componentid?.replace(/\"/igm, "") || '\"' + position + '"'},
+				parentComponent: ${(parentIsLoopComponent)? `"${parent}" + ${parentUniqIndex || attr["$loopcomponent"]}` :  autoParent || loopComponent?.parent?.replace(/\"/igm, "") || attr?.parent?.replace(/\"/igm, "") || '"' + parent + '"' || ""},
+				positionComponent: ${loopComponent?.componentId || attr?.componentid?.replace(/\"/igm, "") || (parentIsLoopComponent)? `"${(attr["$loopcomponent"])? position : pos2}" + ${parentUniqIndex || attr["$loopcomponent"]}` : '"' + position + '"'},
 				state: ${attr["state"] || "{}"},
 				event: ${toString(createEventProperty(attr)).replace(/\"/igm, "")},
 				attribute: ${toString(elementAttribute)},
@@ -185,7 +186,7 @@ function createNativeComponentFromHTML(Component, component, parent, rawText, au
 
 			if (x.nodeName !== "#text") {
 
-				createNativeComponentFromHTML(x, component,position, rawText, attr?.componentid?.replace(/\"/igm, ""));
+				createNativeComponentFromHTML(x, component,position, rawText, (loopComponent.componentId)? loopComponent.componentId : 0  || attr?.componentid?.replace(/\"/igm, ""),parentIsLoopComponent || attr.hasOwnProperty("$loopcomponent"), parentUniqIndex || attr["$loopcomponent"]);
 
 			}
 
@@ -283,7 +284,7 @@ function transformComponent(rawComponent, res, positionComponent, indexComponent
 
 }
 
-// fs.writeFileSync(__dirname + "/compile result/a.js", beautify(transformComponent(fs.readFileSync(__dirname + "/component test/card.js").toString(), [], [], 0), { indent_size: 2, space_in_empty_paren: true }))
+fs.writeFileSync(__dirname + "/compile result/a.js", beautify(transformComponent(fs.readFileSync(__dirname + "/component test/card.js").toString(), [], [], 0), { indent_size: 2, space_in_empty_paren: true }))
 
 module.exports.Compile = (fileSource) => {
 
