@@ -19,7 +19,7 @@ class SPA {
 
             }
 
-        })
+        });
 
         window.onpopstate = ()=>{
 
@@ -60,7 +60,7 @@ class SPA {
            path: e.path,
            event: e.event,
            isMatch: match(e.path)
-        }))
+        }));
 
     }
 
@@ -106,11 +106,11 @@ class SPA {
 
 export const Router = {
     SPA: new SPA(),
-    route({path,component,data = {}}){
+    route({path,component,data = {},target = ()=>{}}){
 
         this.SPA.routeTo(path,()=>{
 
-            const Component = Render(component,document.body,data);
+            const Component = Render(component,target(),data);
             return Component;
 
         });

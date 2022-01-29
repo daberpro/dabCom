@@ -9,7 +9,7 @@ import {
 const a = [dabMain.createRawComponent(`h1`, {
   content: '` hello world ${this.state.count}  `',
   parentComponent: '',
-  positionComponent: '3oaxlfzg',
+  positionComponent: 'kyzzixmb',
   state: {
     count: 0
   },
@@ -21,8 +21,8 @@ const a = [dabMain.createRawComponent(`h1`, {
   id: 'b'
 }), dabMain.createRawComponent(`p`, {
   content: '`create by daberdev`',
-  parentComponent: '3oaxlfzg',
-  positionComponent: 'bicliekr',
+  parentComponent: 'kyzzixmb',
+  positionComponent: 'kyzzixme',
   state: {},
   event: {},
   attribute: {},
@@ -52,7 +52,7 @@ function isLogged({
     return [dabMain.createRawComponent(`h1`, {
       content: '`${this.state.username} logged`',
       parentComponent: '',
-      positionComponent: '46grr32b',
+      positionComponent: 'kyzzixno',
       state: {
         username
       },
@@ -71,7 +71,7 @@ function isLogged({
     return [dabMain.createRawComponent(`h1`, {
       content: '`${this.state.username} logout ${this.state.fullYear}`',
       parentComponent: '',
-      positionComponent: '3x5zb9b6',
+      positionComponent: 'kyzzixnx',
       state: {
         username,
         fullYear: new Date().getFullYear()
@@ -81,20 +81,20 @@ function isLogged({
       id: ''
     }), dabMain.createRawComponent(`b`, {
       content: '`hehehe`',
-      parentComponent: '3x5zb9b6',
-      positionComponent: 'hluxgf6k',
+      parentComponent: 'kyzzixnx',
+      positionComponent: 'kyzzixnx',
       state: {},
       event: {},
       attribute: {},
       id: ''
     }), ...Welcome({
-      "name": "ari susanto",
-      "parentComponent": "3x5zb9b6",
-      "positionComponent": "cnvg2ua1"
+      "name": 'ari susanto',
+      "parentComponent": "kyzzixnx",
+      "positionComponent": "kyzzixnx"
     }), dabMain.createRawComponent(`p`, {
       content: '`nice`',
-      parentComponent: 'cnvg2ua1',
-      positionComponent: '20h97lsy',
+      parentComponent: 'kyzzixnx',
+      positionComponent: 'kyzzixny',
       state: {},
       event: {},
       attribute: {},
@@ -103,29 +103,105 @@ function isLogged({
   }
 }
 
+function myp({
+  parentComponent,
+  positionComponent
+}) {
+  let component = [];
+  for (let x = 0; x < 10; x++) {
+    component = [...component, ...[dabMain.createRawComponent(`h1`, {
+      content: '`hello ${this.state.x}`',
+      parentComponent: parentComponent,
+      positionComponent: new Date().getTime().toString('36') + x,
+      state: {
+        x: x
+      },
+      event: {},
+      attribute: {},
+      id: ''
+    })]];
+  }
+  console.log(component);
+  return component;
+}
+async function getUser({
+  parentComponent,
+  positionComponent
+}) {
+  let object = [];
+  const data = await (await fetch("https://api.github.com/repos/microsoft/vscode/contributors")).json();
+  for (let x of data) {
+    object = [...object, ...[dabMain.createRawComponent(`h1`, {
+      content: '`${this.state.nama}`',
+      parentComponent: parentComponent,
+      positionComponent: new Date().getTime().toString('36') + x.node_id,
+      state: {
+        nama: x.login
+      },
+      event: {},
+      attribute: {},
+      id: ''
+    }), dabMain.createRawComponent(`img`, {
+      content: '``',
+      parentComponent: new Date().getTime().toString('36') + x.node_id,
+      positionComponent: x.node_id + x.login,
+      state: {},
+      event: {},
+      attribute: {
+        'src': x.avatar_url,
+        'width': 100,
+        'height': 100
+      },
+      id: ''
+    })]];
+  }
+  return object;
+}
+
 function Home() {
   return [dabMain.createRawComponent(`h1`, {
     content: '`Home ${this.nama}`',
     parentComponent: '',
-    positionComponent: 'gs1c665u',
+    positionComponent: 'kyzzixou',
     state: {},
     event: {},
     attribute: {},
     id: ''
+  }), ...myp({
+    "parentComponent": "kyzzixou",
+    "positionComponent": "kyzzixov"
   })];
 }
 Router.route({
-  "path": "/home",
-  component: Home({}),
-  data: {
-    "nama": "home"
+  "path": '/home',
+  "component": Home({}),
+  "data": {
+    "nama": `home`
+  },
+  "target": () => {
+    return document.body
   }
 });
+async function main() {
+  Render([dabMain.createRawComponent(`div`, {
+    content: '``',
+    parentComponent: '',
+    positionComponent: 'kyzzixqc',
+    state: {},
+    event: {},
+    attribute: {},
+    id: ''
+  }), ...(await getUser({
+    "parentComponent": "kyzzixqc",
+    "positionComponent": "kyzzixqc"
+  }))], document.body);
+}
+main();
 Render(a, document.body);
 Render([dabMain.createRawComponent(`a`, {
   content: '`go home`',
   parentComponent: '',
-  positionComponent: 'hnrk323p',
+  positionComponent: 'kyzzixqh',
   state: {},
   event: {},
   attribute: {
@@ -137,11 +213,11 @@ Render([dabMain.createRawComponent(`a`, {
 Render([dabMain.createRawComponent(`button`, {
   content: '`update islogged`',
   parentComponent: '',
-  positionComponent: '222t1igb',
+  positionComponent: 'kyzzixqu',
   state: {},
   event: {
     onclick: function() {
-      findById('b').state.count = 1;
+      findById('b').state.count += 1;
     }
   },
   attribute: {},
