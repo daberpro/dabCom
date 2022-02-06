@@ -1,6 +1,6 @@
 
 <div style="text-align: center;">
-    <h1># Seleku-kit 
+    <h1># Seleku-kit </h1>
     <h4>
         <u>by daberdev</u>
     </h4>
