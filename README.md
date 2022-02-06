@@ -5,8 +5,8 @@
         <u>by daberdev</u>
     </h4>
     <br>
-    <a href=""><img src="https://img.shields.io/npm/v/dabcom.svg"></a>
-    <img src="https://img.shields.io/npm/dm/dabcom.svg">
+    <a href="https://www.npmjs.com/package/seleku-kit"><img src="https://img.shields.io/npm/v/dabcom.svg"></a>
+    <a href="https://www.npmjs.com/package/seleku-kit"><img src="https://img.shields.io/npm/dm/dabcom.svg"></a>
     <br>
     <hr>
     check my documentation here
